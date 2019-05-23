@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{pgf}
+\usepackage{luacode}
+\begin{document}
+
+% \begin{pgfpicture}
+\begin{luacode*}
+require "texlib"
+local function pgfcommand(name)
+  return '\\pgf' .. name
+end
+--for x=1,10 do
+tex.routine(function()
+tex.print("\\begin{pgfpicture}")
+for i=1, 30   do
+  local x = i --math.random(i)
+  local y = math.random(10)
+  -- tex.print(pgfcommand("pathrectangle") .. string.format("{\\pgfpoint{%iex}{%iex}}{\\pgfpoint{1ex}{1ex}}", x,y))
+      tex.print(pgfcommand("pathcircle") .. string.format("{\\pgfpoint{%iex}{%iex}}{0.5ex}", x*2,y))
+  local stroke = math.random(2) 
+  if stroke == 1 then
+  tex.print(pgfcommand("usepath").."{stroke}")
+
+  else
+  tex.print(pgfcommand("usepath").."{fill}")
+  end
+  --tex.yield()
+end
+tex.print(" \\end{pgfpicture}")
+end)
+--end
+\end{luacode*}
+% \end{pgfpicture}
+
+\begin{pgfpicture}
+\pgfpathrectangle{\pgfpointorigin}{\pgfpoint{2ex}{1ex}}
+\pgfpathrectangle{\pgfpoint{2ex}{0ex}}{\pgfpoint{2ex}{1ex}}
+\pgfusepath{stroke}
+\end{pgfpicture}
+
+\end{document}
